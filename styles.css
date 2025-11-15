@@ -263,7 +263,7 @@ body {
 .site-footer { text-align: center; padding: 2rem 1rem; color: var(--muted); }
 .font-foot { margin-top: .5rem; color: var(--muted); font-size: .95rem; }
 
-/* احترام تفfضيل تقليل الحركة */
+/* احترام تفضيل تقليل الحركة */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
