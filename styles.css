@@ -9,6 +9,21 @@
   font-style: normal;
 }
 
+/* 🔧 ريست بسيط وتحكم في القياسات */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* منع الصور و الـ SVG من التمدد خارج الشاشة */
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* لوحة ألوان مريحة بلا أبيض ناصع */
 :root {
   --bg: #EDE6DA;       /* خلفية كريمية */
@@ -57,18 +72,19 @@
 /* --- 🌟 1. تعديل الجوال (الزوم واللف) 🌟 --- */
 html { 
   scroll-behavior: smooth; 
-  overflow-x: hidden; /* <--- يمنع اللف يسار */
+  overflow-x: hidden; /* يمنع اللف يمين/يسار */
 }
+
 body {
   font-family: 'SaudiWeb', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   margin: 0;
   line-height: 1.9;
-  overflow-x: hidden; /* <--- (احتياط) */
+  overflow-x: hidden; /* احتياط إضافي */
 }
 
-/* (باقي الكود... ) */
+/* (باقي الكود...) */
 .skip-link {
   position: absolute; left: -9999px; top: auto;
   width: 1px; height: 1px; overflow: hidden;
@@ -94,7 +110,6 @@ body {
 .progress { flex: 1; height: 4px; background: var(--subtle); border-radius: 999px; margin-inline-start: .75rem; }
 .progress #progressBar { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-300), var(--accent-700)); border-radius: 999px; }
 
-
 .site-header { 
   position: relative; 
   overflow: clip; 
@@ -104,17 +119,21 @@ body {
     var(--bg);
 }
 
+/* --- 🌟 2. الهيرو + كلمة التسامح 🌟 --- */
+.hero { 
+  padding: clamp(3rem, 7vw, 6rem) 1rem 2rem; 
+  text-align: center; 
+  position: relative; 
+}
 
-/* --- 🌟 2. تعديل الجوال (الأنيميشن) 🌟 --- */
-.hero { padding: clamp(3rem, 7vw, 6rem) 1rem 2rem; text-align: center; position: relative; }
 .draw-heading { 
   width: min(1200px, 92%); 
   height: auto; 
+  margin-inline: auto;
 }
 
 .draw-text {
   font-family: 'SaudiWeb', sans-serif;
-  /* (هذا يكبّر الخط في الجوال) */
   font-size: clamp(72px, 22vw, 180px);
   stroke-width: 3;
   stroke-linecap: round;
@@ -123,9 +142,8 @@ body {
   fill-opacity: 0;
   stroke: url(#grad);
   
-  /* --- 🌟 3. تعديل الأنيميشن (استخدمنا رقم وسط) 🌟 --- */
-  stroke-dasharray: 1500;  /* <-- تم التعديل من 3600 */
-  stroke-dashoffset: 1500; /* <-- تم التعديل من 3600 */
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
   
   stroke-opacity: 1;
   animation: draw-text-loop 34s linear infinite;
@@ -133,11 +151,8 @@ body {
 
 /* --- 🌟 حركة الأنيميشن الكاملة (المعدلة) 🌟 --- */
 @keyframes draw-text-loop {
-  /* التوقيت الكلي: 34 ثانية */
-
-  /* --- 1. الرسم (8.5 ثواني) --- */
   0% {
-    stroke-dashoffset: 1500; /* <-- تم التعديل */
+    stroke-dashoffset: 1500;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
@@ -146,58 +161,42 @@ body {
     stroke-opacity: 1;
     fill-opacity: 0;
   }
-
-  /* --- 2. وقفة (خط) (ثانيتين) --- */
   30.8% {
     stroke-dashoffset: 0;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
-
-  /* --- 3. تلوين تدريجي (ثانيتين) --- */
   36.7% {
     stroke-dashoffset: 0;
     stroke-opacity: 0; 
     fill-opacity: 1; 
   }
-
-  /* --- 4. وقفة (ملون) (6 ثواني) --- */
   54.4% {
     stroke-dashoffset: 0;
     stroke-opacity: 0;
     fill-opacity: 1;
   }
-
-  /* --- 5. إخفاء اللون تدريجي (ثانيتين) --- */
   60.3% {
     stroke-dashoffset: 0;
     stroke-opacity: 1; 
     fill-opacity: 0; 
   }
-
-  /* --- 6. وقفة (خط) (ثانيتين) --- */
   66.1% {
     stroke-dashoffset: 0;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
-
-  /* --- 7. مسح "حبه حبه" (8.5 ثواني) --- */
   91.1% {
-    stroke-dashoffset: 1500; /* <-- تم التعديل */
+    stroke-dashoffset: 1500;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
-
-  /* --- 8. وقفة (مخفي) (3 ثواني) --- */
   100% {
-    stroke-dashoffset: 1500; /* <-- تم التعديل */
+    stroke-dashoffset: 1500;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
 }
-/* --- نهاية تعديل الأنيميشن --- */
-
 
 /* فواصل مرسومة */
 .divider {
@@ -263,7 +262,26 @@ body {
 .site-footer { text-align: center; padding: 2rem 1rem; color: var(--muted); }
 .font-foot { margin-top: .5rem; color: var(--muted); font-size: .95rem; }
 
-/* احترام تفضيل تقليل الحركة */
+/* 🔻 تحسين خاص للجوال */
+@media (max-width: 600px) {
+  .hero {
+    padding: 2.5rem 1rem 1.5rem; /* أقل شوي عشان ما يحسسك أن الموقع نازل */
+  }
+
+  .draw-heading {
+    width: 100%;
+  }
+
+  .draw-text {
+    font-size: clamp(40px, 18vw, 80px); /* تصغير في الجوال */
+    stroke-width: 2;
+  }
+}
+
+/* احترام تفضيل تقليل الحركة بدون تعطيل رسم كلمة "التسامح" */
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  body *:not(.draw-text) {
+    animation: none !important;
+    transition: none !important;
+  }
 }
