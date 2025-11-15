@@ -54,9 +54,10 @@
   --muted: #52584F;
 }
 
+/* --- 🌟 1. تعديل الجوال (الزوم واللف) 🌟 --- */
 html { 
   scroll-behavior: smooth; 
-  overflow-x: hidden; /* <--- 🌟🌟 حل مشكلة اللف يسار (رقم 1) 🌟🌟 */
+  overflow-x: hidden; /* <--- يمنع اللف يسار */
 }
 body {
   font-family: 'SaudiWeb', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -64,7 +65,7 @@ body {
   color: var(--text);
   margin: 0;
   line-height: 1.9;
-  overflow-x: hidden; /* <--- (نخليه هنا احتياط) */
+  overflow-x: hidden; /* <--- (احتياط) */
 }
 
 /* إمكانية الوصول */
@@ -95,10 +96,10 @@ body {
 .progress #progressBar { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-300), var(--accent-700)); border-radius: 999px; }
 
 
-/* --- 1. خلفية الهيدر الناعمة --- */
+/* --- خلفية الهيدر الناعمة --- */
 .site-header { 
   position: relative; 
-  overflow: clip; /* (هذا مهم عشان الخلفية ما تطلع برا) */
+  overflow: clip; 
   background: 
     radial-gradient(circle at 15% 30%, color-mix(in oklab, var(--accent-500) 25%, transparent 80%)),
     radial-gradient(circle at 85% 70%, color-mix(in oklab, var(--accent-300) 20%, transparent 80%)),
@@ -106,7 +107,7 @@ body {
 }
 
 
-/* --- 2. 🌟🌟 أنيميشن "التسامح" اللانهائي 🌟🌟 --- */
+/* --- 🌟 2. تعديل الجوال (الأنيميشن) 🌟 --- */
 .hero { padding: clamp(3rem, 7vw, 6rem) 1rem 2rem; text-align: center; position: relative; }
 .draw-heading { 
   width: min(1200px, 92%); /* (استخدمنا % بدل vw) */
@@ -117,7 +118,6 @@ body {
   /* --- الإعدادات الأساسية --- */
   font-family: 'SaudiWeb', sans-serif;
   
-  /* <--- 🌟🌟 حل مشكلة حجم الخط (رقم 2) 🌟🌟 */
   /* (غيرنا 12vw إلى 22vw عشان يكبر في الجوال) */
   font-size: clamp(72px, 22vw, 180px);
   
@@ -129,21 +129,25 @@ body {
   fill: url(#grad); 
   fill-opacity: 0;
   stroke: url(#grad);
-  stroke-dasharray: 3600;
-  stroke-dashoffset: 3600;
+  
+  /* --- 🌟 3. تعديل الأنيميشن (المتغير) 🌟 --- */
+  /* (استبدلنا 3600 بالمتغير اللي بيجي من app.js) */
+  stroke-dasharray: var(--stroke-length, 3600);
+  stroke-dashoffset: var(--stroke-length, 3600);
+  
   stroke-opacity: 1;
 
   /* --- 🌟 تشغيل اللوب اللانهائي (المدة 34 ثانية) 🌟 --- */
   animation: draw-text-loop 34s linear infinite;
 }
 
-/* --- 🌟 حركة الأنيميشن الكاملة (محسوبة بالـ %) 🌟 --- */
+/* --- 🌟 حركة الأنيميشن الكاملة (المعدلة بالمتغير) 🌟 --- */
 @keyframes draw-text-loop {
   /* التوقيت الكلي: 34 ثانية */
 
   /* --- 1. الرسم (8.5 ثواني) --- */
   0% {
-    stroke-dashoffset: 3600;
+    stroke-dashoffset: var(--stroke-length, 3600); /* <--- تعديل */
     stroke-opacity: 1;
     fill-opacity: 0;
   }
@@ -196,7 +200,7 @@ body {
   /* --- 7. مسح "حبه حبه" (8.5 ثواني) --- */
   /* (22.5 + 8.5 = 31 ثانية) */
   91.1% { /* 31 / 34 = 0.911 */
-    stroke-dashoffset: 3600;
+    stroke-dashoffset: var(--stroke-length, 3600); /* <--- تعديل */
     stroke-opacity: 1;
     fill-opacity: 0;
   }
@@ -204,7 +208,7 @@ body {
   /* --- 8. وقفة (مخفي) (3 ثواني) --- */
   /* (31 + 3 = 34 ثانية) */
   100% {
-    stroke-dashoffset: 3600;
+    stroke-dashoffset: var(--stroke-length, 3600); /* <--- تعديل */
     stroke-opacity: 1;
     fill-opacity: 0;
   }
