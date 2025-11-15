@@ -1,0 +1,275 @@
+/* ------------------------------
+   الخط والطباعة
+---------------------------------*/
+@font-face {
+  font-family: 'SaudiWeb';
+  src: url('assets/fonts/SaudiWeb-Bold.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* لوحة ألوان مريحة بلا أبيض ناصع */
+:root {
+  --bg: #EDE6DA;       /* خلفية كريمية */
+  --text: #222222;     /* نص داكن مريح */
+  --muted: #5B6155;    /* توضيحي/ثانوي */
+  --surface: #F3EEE3;  /* بطاقات/أسطح */
+  --subtle: #D8D0C3;   /* حدود لطيفة */
+  --accent-300: #A7B79A; /* أخضر حكيم فاتح */
+  --accent-500: #667B64; /* أخضر زيتوني متوسط */
+  --accent-700: #3D4E3A; /* أخضر غامق */
+  --shadow: 0 10px 40px rgba(0,0,0,.08);
+}
+
+/* بدائل ثيمات */
+.theme-1 { 
+  --bg: #ECE4D8;
+  --surface: #F2ECE0;
+  --subtle: #D4CABA;
+  --accent-300: #B7C5AE;
+  --accent-500: #6C8369;
+  --accent-700: #3C4D39;
+  --text: #242424;
+  --muted: #596055;
+}
+.theme-2 { 
+  --bg: #F0E7DC;
+  --surface: #EAE1D6;
+  --subtle: #D9CFC3;
+  --accent-300: #A8B39E;
+  --accent-500: #5E725C;
+  --accent-700: #2E3D2F;
+  --text: #242424;
+  --muted: #545B52;
+}
+.theme-3 { 
+  --bg: #E9E1D6;
+  --surface: #E7DFD3;
+  --subtle: #D0C7BB;
+  --accent-300: #9EB49B;
+  --accent-500: #58705A;
+  --accent-700: #344B35;
+  --text: #242424;
+  --muted: #52584F;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'SaudiWeb', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  line-height: 1.9;
+  overflow-x: hidden; /* <--- 🌟🌟 تم إضافة هذا السطر لحل المشكلة 🌟🌟 */
+}
+
+/* إمكانية الوصول */
+.skip-link {
+  position: absolute; left: -9999px; top: auto;
+  width: 1px; height: 1px; overflow: hidden;
+}
+.skip-link:focus { position: static; width: auto; height: auto; padding: .5rem 1rem; background: var(--accent-300); color: #000; }
+
+/* شريط الأدوات + مؤشر القراءة */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; gap: .5rem; align-items: center; justify-content: space-between;
+  backdrop-filter: blur(10px);
+  background: color-mix(in oklab, var(--bg) 80%, var(--surface) 20%);
+  border-bottom: 1px solid var(--subtle);
+  padding: .75rem 1rem;
+}
+.btn {
+  border: 1px solid var(--subtle);
+  background: var(--surface);
+  padding: .5rem .9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.progress { flex: 1; height: 4px; background: var(--subtle); border-radius: 999px; margin-inline-start: .75rem; }
+.progress #progressBar { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-300), var(--accent-700)); border-radius: 999px; }
+
+
+/* --- 1. خلفية الهيدر الناعمة --- */
+.site-header { 
+  position: relative; 
+  overflow: clip; 
+  background: 
+    radial-gradient(circle at 15% 30%, color-mix(in oklab, var(--accent-500) 25%, transparent 80%)),
+    radial-gradient(circle at 85% 70%, color-mix(in oklab, var(--accent-300) 20%, transparent 80%)),
+    var(--bg);
+}
+
+
+/* --- 2. 🌟🌟 أنيميشن "التسامح" اللانهائي 🌟🌟 --- */
+.hero { padding: clamp(3rem, 7vw, 6rem) 1rem 2rem; text-align: center; position: relative; }
+.draw-heading { 
+  width: min(1200px, 92%); /* (استخدمنا % بدل vw) */
+  height: auto; 
+}
+
+.draw-text {
+  /* --- الإعدادات الأساسية --- */
+  font-family: 'SaudiWeb', sans-serif;
+  font-size: clamp(72px, 12vw, 180px);
+  stroke-width: 3;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+
+  /* --- الإعدادات الأولية للأنيميشن --- */
+  fill: url(#grad); 
+  fill-opacity: 0;
+  stroke: url(#grad);
+  stroke-dasharray: 3600;
+  stroke-dashoffset: 3600;
+  stroke-opacity: 1;
+
+  /* --- 🌟 تشغيل اللوب اللانهائي (المدة 34 ثانية) 🌟 --- */
+  animation: draw-text-loop 34s linear infinite;
+}
+
+/* --- 🌟 حركة الأنيميشن الكاملة (محسوبة بالـ %) 🌟 --- */
+@keyframes draw-text-loop {
+  /* التوقيت الكلي: 34 ثانية */
+
+  /* --- 1. الرسم (8.5 ثواني) --- */
+  0% {
+    stroke-dashoffset: 3600;
+    stroke-opacity: 1;
+    fill-opacity: 0;
+  }
+  25% { /* 8.5 / 34 = 0.25 */
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+    fill-opacity: 0;
+  }
+
+  /* --- 2. وقفة (خط) (ثانيتين) --- */
+  /* (8.5 + 2 = 10.5 ثواني) */
+  30.8% { /* 10.5 / 34 = 0.308 */
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+    fill-opacity: 0;
+  }
+
+  /* --- 3. تلوين تدريجي (ثانيتين) --- */
+  /* (10.5 + 2 = 12.5 ثواني) */
+  36.7% { /* 12.5 / 34 = 0.367 */
+    stroke-dashoffset: 0;
+    stroke-opacity: 0; /* إخفاء الخط القبيح */
+    fill-opacity: 1; /* إظهار التعبئة */
+  }
+
+  /* --- 4. وقفة (ملون) (6 ثواني) --- */
+  /* (12.5 + 6 = 18.5 ثواني) */
+  54.4% { /* 18.5 / 34 = 0.544 */
+    stroke-dashoffset: 0;
+    stroke-opacity: 0;
+    fill-opacity: 1;
+  }
+
+  /* --- 5. إخفاء اللون تدريجي (ثانيتين) --- */
+  /* (18.5 + 2 = 20.5 ثواني) */
+  60.3% { /* 20.5 / 34 = 0.603 */
+    stroke-dashoffset: 0;
+    stroke-opacity: 1; /* إرجاع الخط */
+    fill-opacity: 0; /* إخفاء التعبئة */
+  }
+
+  /* --- 6. وقفة (خط) (ثانيتين) --- */
+  /* (20.5 + 2 = 22.5 ثواني) */
+  66.1% { /* 22.5 / 34 = 0.661 */
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+    fill-opacity: 0;
+  }
+
+  /* --- 7. مسح "حبه حبه" (8.5 ثواني) --- */
+  /* (22.5 + 8.5 = 31 ثانية) */
+  91.1% { /* 31 / 34 = 0.911 */
+    stroke-dashoffset: 3600;
+    stroke-opacity: 1;
+    fill-opacity: 0;
+  }
+
+  /* --- 8. وقفة (مخفي) (3 ثواني) --- */
+  /* (31 + 3 = 34 ثانية) */
+  100% {
+    stroke-dashoffset: 3600;
+    stroke-opacity: 1;
+    fill-opacity: 0;
+  }
+}
+/* --- نهاية تعديل الأنيميشن --- */
+
+
+/* فواصل مرسومة */
+.divider {
+  display: block;
+  width: min(680px, 80%); /* (استخدمنا % بدل vw) */
+  height: 10px;
+  margin: .75rem auto 0;
+}
+.divider line {
+  stroke: color-mix(in oklab, var(--accent-500) 70%, var(--accent-700) 30%);
+  stroke-width: 2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+.draw.in-view line {
+  animation: lineDraw 2s ease forwards;
+}
+@keyframes lineDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* المحتوى */
+.content { padding: 0 1rem 3rem; }
+.section {
+  margin-inline: auto;
+  max-width: 72ch; /* فقرة ممتدة مريحة للقراءة */
+  padding: clamp(1.5rem, 3.5vw, 2.25rem) 0;
+  border-bottom: 1px solid var(--subtle);
+}
+
+/* ظهور تدريجي عند التمرير + رسم تحت العناوين */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .9s ease, transform .9s ease; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+.h2-draw {
+  position: relative; display: inline-block; padding-bottom: .3rem;
+}
+.h2-draw::after {
+  content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent-300), var(--accent-700));
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 1.2s ease;
+}
+.reveal.in-view .h2-draw::after { transform: scaleX(1); transform-origin: left; }
+
+.benefits, .steps, .challenge, .reflect, .resources, .quran-list { padding-inline-start: 1.25rem; }
+.benefits li, .steps li, .challenge li, .reflect li, .resources li, .quran-list li { margin: .4rem 0; }
+
+/* اقتباسات */
+.quotes blockquote {
+  margin: 1rem 0;
+  padding: 1rem 1.25rem;
+  border-inline-start: 4px solid var(--accent-500);
+  background: color-mix(in oklab, var(--surface) 80%, var(--bg) 20%);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.quotes blockquote footer { color: var(--muted); margin-top: .35rem; }
+.quotes blockquote .orig { display: block; opacity: .85; margin-top: .25rem; }
+
+/* الفوتر */
+.site-footer { text-align: center; padding: 2rem 1rem; color: var(--muted); }
+.font-foot { margin-top: .5rem; color: var(--muted); font-size: .95rem; }
+
+/* احترام تفضيل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
