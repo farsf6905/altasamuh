@@ -68,14 +68,13 @@ body {
   overflow-x: hidden; /* <--- (احتياط) */
 }
 
-/* إمكانية الوصول */
+/* (باقي الكود... ) */
 .skip-link {
   position: absolute; left: -9999px; top: auto;
   width: 1px; height: 1px; overflow: hidden;
 }
 .skip-link:focus { position: static; width: auto; height: auto; padding: .5rem 1rem; background: var(--accent-300); color: #000; }
 
-/* شريط الأدوات + مؤشر القراءة */
 .topbar {
   position: sticky; top: 0; z-index: 50;
   display: flex; gap: .5rem; align-items: center; justify-content: space-between;
@@ -96,7 +95,6 @@ body {
 .progress #progressBar { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-300), var(--accent-700)); border-radius: 999px; }
 
 
-/* --- خلفية الهيدر الناعمة --- */
 .site-header { 
   position: relative; 
   overflow: clip; 
@@ -110,105 +108,90 @@ body {
 /* --- 🌟 2. تعديل الجوال (الأنيميشن) 🌟 --- */
 .hero { padding: clamp(3rem, 7vw, 6rem) 1rem 2rem; text-align: center; position: relative; }
 .draw-heading { 
-  width: min(1200px, 92%); /* (استخدمنا % بدل vw) */
+  width: min(1200px, 92%); 
   height: auto; 
 }
 
 .draw-text {
-  /* --- الإعدادات الأساسية --- */
   font-family: 'SaudiWeb', sans-serif;
-  
-  /* (غيرنا 12vw إلى 22vw عشان يكبر في الجوال) */
+  /* (هذا يكبّر الخط في الجوال) */
   font-size: clamp(72px, 22vw, 180px);
-  
   stroke-width: 3;
   stroke-linecap: round;
   paint-order: stroke fill;
-
-  /* --- الإعدادات الأولية للأنيميشن --- */
   fill: url(#grad); 
   fill-opacity: 0;
   stroke: url(#grad);
   
-  /* --- 🌟 3. تعديل الأنيميشن (المتغير) 🌟 --- */
-  /* (استبدلنا 3600 بالمتغير اللي بيجي من app.js) */
-  stroke-dasharray: var(--stroke-length, 3600);
-  stroke-dashoffset: var(--stroke-length, 3600);
+  /* --- 🌟 3. تعديل الأنيميشن (استخدمنا رقم وسط) 🌟 --- */
+  stroke-dasharray: 1500;  /* <-- تم التعديل من 3600 */
+  stroke-dashoffset: 1500; /* <-- تم التعديل من 3600 */
   
   stroke-opacity: 1;
-
-  /* --- 🌟 تشغيل اللوب اللانهائي (المدة 34 ثانية) 🌟 --- */
   animation: draw-text-loop 34s linear infinite;
 }
 
-/* --- 🌟 حركة الأنيميشن الكاملة (المعدلة بالمتغير) 🌟 --- */
+/* --- 🌟 حركة الأنيميشن الكاملة (المعدلة) 🌟 --- */
 @keyframes draw-text-loop {
   /* التوقيت الكلي: 34 ثانية */
 
   /* --- 1. الرسم (8.5 ثواني) --- */
   0% {
-    stroke-dashoffset: var(--stroke-length, 3600); /* <--- تعديل */
+    stroke-dashoffset: 1500; /* <-- تم التعديل */
     stroke-opacity: 1;
     fill-opacity: 0;
   }
-  25% { /* 8.5 / 34 = 0.25 */
+  25% { 
     stroke-dashoffset: 0;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
 
   /* --- 2. وقفة (خط) (ثانيتين) --- */
-  /* (8.5 + 2 = 10.5 ثواني) */
-  30.8% { /* 10.5 / 34 = 0.308 */
+  30.8% {
     stroke-dashoffset: 0;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
 
   /* --- 3. تلوين تدريجي (ثانيتين) --- */
-  /* (10.5 + 2 = 12.5 ثواني) */
-  36.7% { /* 12.5 / 34 = 0.367 */
+  36.7% {
     stroke-dashoffset: 0;
-    stroke-opacity: 0; /* إخفاء الخط القبيح */
-    fill-opacity: 1; /* إظهار التعبئة */
+    stroke-opacity: 0; 
+    fill-opacity: 1; 
   }
 
   /* --- 4. وقفة (ملون) (6 ثواني) --- */
-  /* (12.5 + 6 = 18.5 ثواني) */
-  54.4% { /* 18.5 / 34 = 0.544 */
+  54.4% {
     stroke-dashoffset: 0;
     stroke-opacity: 0;
     fill-opacity: 1;
   }
 
   /* --- 5. إخفاء اللون تدريجي (ثانيتين) --- */
-  /* (18.5 + 2 = 20.5 ثواني) */
-  60.3% { /* 20.5 / 34 = 0.603 */
+  60.3% {
     stroke-dashoffset: 0;
-    stroke-opacity: 1; /* إرجاع الخط */
-    fill-opacity: 0; /* إخفاء التعبئة */
+    stroke-opacity: 1; 
+    fill-opacity: 0; 
   }
 
   /* --- 6. وقفة (خط) (ثانيتين) --- */
-  /* (20.5 + 2 = 22.5 ثواني) */
-  66.1% { /* 22.5 / 34 = 0.661 */
+  66.1% {
     stroke-dashoffset: 0;
     stroke-opacity: 1;
     fill-opacity: 0;
   }
 
   /* --- 7. مسح "حبه حبه" (8.5 ثواني) --- */
-  /* (22.5 + 8.5 = 31 ثانية) */
-  91.1% { /* 31 / 34 = 0.911 */
-    stroke-dashoffset: var(--stroke-length, 3600); /* <--- تعديل */
+  91.1% {
+    stroke-dashoffset: 1500; /* <-- تم التعديل */
     stroke-opacity: 1;
     fill-opacity: 0;
   }
 
   /* --- 8. وقفة (مخفي) (3 ثواني) --- */
-  /* (31 + 3 = 34 ثانية) */
   100% {
-    stroke-dashoffset: var(--stroke-length, 3600); /* <--- تعديل */
+    stroke-dashoffset: 1500; /* <-- تم التعديل */
     stroke-opacity: 1;
     fill-opacity: 0;
   }
@@ -219,7 +202,7 @@ body {
 /* فواصل مرسومة */
 .divider {
   display: block;
-  width: min(680px, 80%); /* (استخدمنا % بدل vw) */
+  width: min(680px, 80%);
   height: 10px;
   margin: .75rem auto 0;
 }
@@ -240,7 +223,7 @@ body {
 .content { padding: 0 1rem 3rem; }
 .section {
   margin-inline: auto;
-  max-width: 72ch; /* فقرة ممتدة مريحة للقراءة */
+  max-width: 72ch; 
   padding: clamp(1.5rem, 3.5vw, 2.25rem) 0;
   border-bottom: 1px solid var(--subtle);
 }
@@ -280,7 +263,7 @@ body {
 .site-footer { text-align: center; padding: 2rem 1rem; color: var(--muted); }
 .font-foot { margin-top: .5rem; color: var(--muted); font-size: .95rem; }
 
-/* احترام تفضيل تقليل الحركة */
+/* احترام تفfضيل تقليل الحركة */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
