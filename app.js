@@ -15,46 +15,12 @@
     });
   }
 
-  // --- 🌟 🌟 🌟 ---
-  // 🌟 وظيفة قياس الأنيميشن (هذا الكود الجديد)
-  // --- 🌟 🌟 🌟 ---
-  const measureAndSet = () => {
-    const drawText = document.querySelector('.draw-text');
-    if (!drawText) return; // لو العنصر مو موجود، لا تسوي شي
-
-    try {
-      // 1. قيس الطول الحقيقي للخط (وهو أصغر في الجوال)
-      const length = drawText.getTotalLength();
-      
-      // 2. اطبع الطول هذا في الـ CSS كمتغير (عشان styles.css يستخدمه)
-      drawText.style.setProperty('--stroke-length', length);
-      
-      // 3. (احتياط) أعد تشغيل الأنيميشن عشان ياخذ الطول الجديد
-      drawText.style.animation = 'none';
-      drawText.offsetHeight; /* (حركة عشان نجبر المتصفح "يشوف" التغيير) */
-      drawText.style.animation = '';
-
-    } catch(e) {
-      console.error("Error measuring SVG text:", e);
-      // (إذا فشل، استخدم الطول القديم كاحتياط)
-      drawText.style.setProperty('--stroke-length', 3600);
-    }
-  };
-
-
   // --- 2. تبديل الحجم (مع التحقق) ---
   if (sizeBtn) {
     let big = false;
     sizeBtn.addEventListener('click', () => {
       big = !big;
       document.documentElement.style.fontSize = big ? '20px' : '16px';
-
-      // --- 🌟 🌟 🌟 ---
-      // 🌟 (هنا التعديل الثاني)
-      // إذا المستخدم غير حجم الخط، لازم نرجع نقيس الأنيميشن
-      // انتظر 0.35 ثانية (عشان الخط يكبر) بعدين قيس
-      setTimeout(measureAndSet, 350); 
-      // --- 🌟 🌟 🌟 ---
     });
   }
 
@@ -69,7 +35,6 @@
   }
 
   // --- 4. 🌟 المؤشر الجديد (Cursor Dot) ---
-  // (تأكد إن الـ CSS عندك فيه كلاس .cursor-dot)
   const cursorDot = document.createElement('div');
   cursorDot.className = 'cursor-dot';
   body.appendChild(cursorDot);
@@ -81,12 +46,6 @@
 
   // --- 5. 🌟 حركات الظهور والرسم (عند تحميل الصفحة) ---
   document.addEventListener('DOMContentLoaded', () => {
-
-    // --- 🌟 🌟 🌟 ---
-    // 🌟 (هنا التعديل الأول)
-    // أول ما تفتح الصفحة، قيس طول الأنيميشن
-    measureAndSet();
-    // --- 🌟 🌟 🌟 ---
     
     // --- إعداد الـ Observer ---
     const observer = new IntersectionObserver((entries) => {
@@ -106,8 +65,6 @@
     // --- إعداد حركة "رسم" الفواصل (SVG) ---
     // (هذا الكود حق الفواصل اللي تحت العناوين)
     document.querySelectorAll('.draw line').forEach(line => {
-      // (عدلته لـ line بدل path احتياطاً)
-      // إذا الفواصل عندك <path> رجعه لـ '.draw path'
       const length = line.getTotalLength();
       line.style.strokeDasharray = length;
       line.style.strokeDashoffset = length;
